@@ -1,11 +1,15 @@
+using CleanArchitecture.API.Swagger;
 using CleanArchitecture.Application;
 using CleanArchitecture.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace CleanArchitecture.API
 {
@@ -20,34 +24,41 @@ namespace CleanArchitecture.API
 
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddControllers();
-            services.AddSwaggerGen(c =>
+            services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
+            services.AddSwaggerGen(options => { options.OperationFilter<SwaggerDefaultValues>(); });
+
+            services.AddApiVersioning(options => { options.ReportApiVersions = true; });
+            services.AddVersionedApiExplorer(options =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "CleanArchitecture.API", Version = "v1" });
+                options.GroupNameFormat = "'v'VVV";
+                options.SubstituteApiVersionInUrl = true;
             });
 
             services.AddInfrastructure(Configuration);
             services.AddApplication();
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IApiVersionDescriptionProvider provider)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "CleanArchitecture.API v1"));
+                app.UseSwagger(options => { options.RouteTemplate = "swagger/{documentName}/docs.json"; });
+                app.UseSwaggerUI(options =>
+                {
+                    options.RoutePrefix = "swagger";
+                    foreach (var description in provider.ApiVersionDescriptions)
+                        options.SwaggerEndpoint($"/swagger/{description.GroupName}/docs.json",
+                            description.GroupName.ToUpperInvariant());
+                });
             }
 
             app.UseRouting();
 
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
     }
 }

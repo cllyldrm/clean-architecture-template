@@ -20,7 +20,7 @@ namespace CleanArchitecture.Domain.ValueObjects
             Value = status;
         }
 
-        public string Value { get; set; }
+        public string Value { get; private set; }
 
         public static Status From(string value)
         {

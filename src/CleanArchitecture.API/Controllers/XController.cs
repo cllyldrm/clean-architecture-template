@@ -8,7 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace CleanArchitecture.API.Controllers
 {
     [ApiController]
-    [Route("x")]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/x")]
     public class XController : ControllerBase
     {
         private readonly IMediator _mediator;
