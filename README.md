@@ -1,7 +1,7 @@
 # Clean Architecture Template
-![design.png](images/design.png)
+![img.png](images/design.png)
 
-This is a example template to implement clean architecture with ASP.NET Core in .Net 5.0. It also includes Azure Service Bus, CosmosDB, Application Insights and Azure Functions V3.
+This is an example template if you want to implement clean architecture structure in ASP.NET CORE 5.0. It also includes Azure Service Bus, Application Insights and Azure Functions V3.
 ## Project Structure
 - CleanArchitecture.API
 - CleanArchitecture.Application
@@ -11,17 +11,16 @@ This is a example template to implement clean architecture with ASP.NET Core in 
 
 ## Overview
 ### Domain
-This will contain aggregate roots, value objects, exceptions, events.
+Domain layer contains aggregate roots, value objects, domain exceptions, entities, domain events and repository abstractions.
 ### Application
-This layer defines interfaces that are implemented by outside layers. This layer also contains all application logic.
+Application layer contains use cases like commands and queries. It also includes service exceptions, service abstractions.
 ### Infrastructure
-This layer contains classes for accessing external resources. Should be based on interfaces defined within the application layer.
+Infrastructure layer contains classes for accessing external resources. It should also implement abstractions that defined Domain and Application layers.
 ### Function
-This layer contains classes for event listeners. Connected to Azure Service Bus queues. 
+This layer contains classes for event listeners. Connected to Azure Service Bus queues.
 
 ## Technologies
-- ASP.NET 5.0
-- MediatR, FluentValidation
-- Azure Service Bus, Functions, Application Insights, CosmosDB
-- Clean Architecture, CQRS
+- ASP.NET Core 5.0 & Clean Architecture & CQRS
+- MediatR, FluentValidation, AutoMapper, Swagger, Api Versioning, Dapper
+- Azure Service Bus, Azure Functions, Azure Application Insights
 - NUnit, FluentAssertions, Moq

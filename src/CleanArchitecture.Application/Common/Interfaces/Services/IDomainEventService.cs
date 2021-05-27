@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
-using CleanArchitecture.Domain.Seedwork;
+using CleanArchitecture.Domain.Common;
+using CleanArchitecture.Domain.Common.Models;
 
 namespace CleanArchitecture.Application.Common.Interfaces.Services
 {

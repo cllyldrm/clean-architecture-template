@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CleanArchitecture.Application.Common.Interfaces.Services;
 using CleanArchitecture.Application.Common.Models;
-using CleanArchitecture.Domain.Seedwork;
+using CleanArchitecture.Domain.Common.Models;
 using MediatR;
 using Microsoft.Extensions.Logging;
 

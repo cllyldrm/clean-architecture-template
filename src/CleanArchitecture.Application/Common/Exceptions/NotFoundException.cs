@@ -1,27 +1,13 @@
-﻿using System;
+using System.Net;
 
 namespace CleanArchitecture.Application.Common.Exceptions
 {
-    public class NotFoundException : Exception
+    public class NotFoundException : ExceptionBase
     {
-        public NotFoundException()
-            : base()
+        public NotFoundException(string message) : base(message)
         {
         }
 
-        public NotFoundException(string message)
-            : base(message)
-        {
-        }
-
-        public NotFoundException(string message, Exception innerException)
-            : base(message, innerException)
-        {
-        }
-
-        public NotFoundException(Guid id)
-            : base($"Entity \"{id}\" was not found.")
-        {
-        }
+        public override HttpStatusCode StatusCode => HttpStatusCode.NotFound;
     }
 }

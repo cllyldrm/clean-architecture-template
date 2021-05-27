@@ -4,7 +4,7 @@ namespace CleanArchitecture.Application.Common.Models
     {
         public static class Exchanges
         {
-            public static string ProcessFinished = "process-finished";
+            public static string OrderCompleted = "order-completed-queue";
         }
     }
 }
